@@ -99,13 +99,15 @@ body {
     justify-content: center;
 }
 
-#aboutMovie div img{
+#aboutMovie div a img{
     width: 250px;
     height: 350px;
     border: 2px solid black;
     margin: 20px;
     margin-left: 50px;
+    cursor: pointer;
 }
+
 
 #aboutMovie div ul{
     margin-top: 20px;

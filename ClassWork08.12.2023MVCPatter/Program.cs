@@ -14,8 +14,9 @@ builder.Services.AddDbContext<MovieContext>(options => options.UseSqlServer(conn
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-app.UseStaticFiles(); // обрабатывает запросы к файлам в папке wwwroot
 
+
+app.UseStaticFiles(); // обрабатывает запросы к файлам в папке wwwroot
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Movies}/{action=Index}/{id?}");

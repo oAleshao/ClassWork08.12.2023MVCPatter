@@ -13,7 +13,9 @@
        
             <section id="aboutMovie">
                 <div>
-                    <img src="Posters\@Html.DisplayFor(modelItem => item.Poster)" />
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                         <img src="Posters\@Html.DisplayFor(modelItem => item.Poster)" />
+                    </a>
                 </div>
                 <div>
                     <ul>
