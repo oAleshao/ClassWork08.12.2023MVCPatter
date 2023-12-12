@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ClassWork08._12._2023MVCPatter.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@foreach (var item in Model) {
+    <section id="movie">
+        <a asp-action="Details" asp-route-id="@item.Id"> 
+            <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+            </a> 
+       
+            <section id="aboutMovie">
+                <div>
+                    <img src="Posters\@Html.DisplayFor(modelItem => item.Poster)" />
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            <div>
+                                <h4>Год выпуска:</h4>
+                                <p>@Html.DisplayFor(modelItem => item.Year)</p> @* год *@
+                            </div>
+                        </li>
+                    <li>
+                        <div>
+                            <h4>Страна: </h4>
+                            <p>@Html.DisplayFor(modelItem => item.Country)</p> @* страна *@
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h4>Жанр: </h4>
+                            <p>@Html.DisplayFor(modelItem => item.Ganre)</p> @* жанр *@
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p>@Html.DisplayFor(modelItem => item.Description)</p> @* описание *@
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+            </section>
+    </section>
+}

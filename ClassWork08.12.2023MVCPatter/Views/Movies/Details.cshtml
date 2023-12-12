@@ -1,0 +1,62 @@
+﻿@model ClassWork08._12._2023MVCPatter.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 id="movieDetails">@Html.DisplayFor(model => model.Title)</h2>
+
+    <section id="movie">
+
+        <section id="aboutMovieDetails">
+            <div>
+                <img src="/Posters/@Html.DisplayFor(model => model.Poster)" />
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <div>
+                            <h4>Год выпуска:</h4>
+                            <p>@Html.DisplayFor(model => model.Year)</p> @* год *@
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h4>Страна: </h4>
+                            <p>@Html.DisplayFor(model => model.Country)</p> @* страна *@
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h4>Режиссёр: </h4>
+                            <p>@Html.DisplayFor(model => model.Director)</p> @* режиссер *@
+                        </div>
+                    </li>
+                <li>
+                    <div>
+                        <h4>Жанр: </h4>
+                        <p>@Html.DisplayFor(model => model.Ganre)</p> @* жанр *@
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>В ролях: </h4>
+                        <p>@Html.DisplayFor(model => model.Cast)</p> @* каст *@
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </section>
+    </section>
+
+
+<div id="DescriptionsDetails">
+    <h4>Описание:</h4>
+    <p>@Html.DisplayFor(model => model.Description)</p> @* описание *@
+</div>
+<div>
+  
+</div>
+<div id="BackHome">
+    <a asp-action="Index">Назад</a>
+</div>
