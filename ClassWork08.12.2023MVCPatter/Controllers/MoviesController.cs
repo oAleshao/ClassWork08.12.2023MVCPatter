@@ -99,7 +99,7 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie, IFormFile uploadedFile)
         {
             if (id != movie.Id)
             {
@@ -110,6 +110,26 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
             {
                 try
                 {
+                    if (uploadedFile != null)
+                    {
+                        var fullPath = _appEnvironment.WebRootPath + movie.Poster;
+                        try
+                        {
+                            if (System.IO.File.Exists(fullPath))
+                            {
+                                System.IO.File.Delete(fullPath);
+                            }
+                        }
+                        catch (Exception) { }
+
+                        string path = "/Posters/" + uploadedFile.FileName; // имя файла
+
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream); // копируем файл в поток
+                        }
+                        movie.Poster = path;
+                    }
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
@@ -156,12 +176,8 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
             if (movie != null)
             {
                 var fullPath = _appEnvironment.WebRootPath + movie.Poster;
-                 
-                Console.WriteLine(fullPath);
-                var temp = @"D:\ASP.Net Core\ClassWork08.12.2023MVCPatter\ClassWork08.12.2023MVCPatter\wwwroot\Posters\Без названия.png";
                 try
                 {
-                    
                     if (System.IO.File.Exists(fullPath))
                     {
                         System.IO.File.Delete(fullPath);
