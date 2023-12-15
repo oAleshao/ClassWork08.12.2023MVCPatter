@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassWork08._12._2023MVCPatter.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace ClassWork08._12._2023MVCPatter.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly MovieContext _context;
-
-        public MoviesController(MovieContext context)
+        IWebHostEnvironment _appEnvironment;
+        public MoviesController(MovieContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         // GET: Movies
@@ -29,14 +31,14 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Eror404");
             }
 
             var movie = await _context.Movies
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
-                return NotFound();
+                return View("Eror404");
             }
 
             return View(movie);
@@ -53,10 +55,22 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie, IFormFile uploadedFile)
         {
+            
             if (ModelState.IsValid)
             {
+                if (uploadedFile != null)
+                {
+                    string path = "/Posters/" + uploadedFile.FileName; // имя файла
+
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream); // копируем файл в поток
+                        Console.WriteLine("WORK");
+                    }
+                    movie.Poster = path;
+                }
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -69,13 +83,13 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Eror404");
             }
 
             var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
-                return NotFound();
+                return View("Eror404");
             }
             return View(movie);
         }
@@ -89,7 +103,7 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         {
             if (id != movie.Id)
             {
-                return NotFound();
+                return View("Eror404");
             }
 
             if (ModelState.IsValid)
@@ -103,14 +117,14 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
                 {
                     if (!MovieExists(movie.Id))
                     {
-                        return NotFound();
+                        return View("Eror404");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View("Details", movie);
             }
             return View(movie);
         }
@@ -141,6 +155,18 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
             var movie = await _context.Movies.FindAsync(id);
             if (movie != null)
             {
+                var fullPath = _appEnvironment.WebRootPath + movie.Poster;
+                 
+                Console.WriteLine(fullPath);
+                var temp = @"D:\ASP.Net Core\ClassWork08.12.2023MVCPatter\ClassWork08.12.2023MVCPatter\wwwroot\Posters\Без названия.png";
+                try
+                {
+                    
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }catch (Exception) {  }
                 _context.Movies.Remove(movie);
             }
 

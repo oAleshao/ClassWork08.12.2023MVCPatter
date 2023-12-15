@@ -10,7 +10,7 @@
 
         <section id="aboutMovieDetails">
             <div>
-                <img src="/Posters/@Html.DisplayFor(model => model.Poster)" />
+                <img src="@Html.DisplayFor(model => model.Poster)" />
             </div>
             <div>
                 <ul>
@@ -58,5 +58,7 @@
   
 </div>
 <div id="BackHome">
-    <a asp-action="Index">Назад</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id">Удалить</a>
 </div>
+

@@ -24,6 +24,7 @@
     width:100%;
     background: black;
     text-align: left;
+    display: flex;
 }
 #header div {
     width: 10%;
@@ -47,10 +48,29 @@
         font-family: Tahoma, Verdana, sans-serif;
     }
 
+#HeadMenu ul{
+    margin: 17px 0px 0px 0px;
+}
+
+#HeadMenu ul{
+    list-style: none;
+    color: white;
+    display: flex;
+}
+
+
+#HeadMenu ul li a {
+    color: white;    
+    text-decoration: none;
+}
+
+    
+#HeadMenu ul li a:hover {
+    color: #a9350f;
+}
+
 
 /*/////////// BODY /////////////*/
-
-
 #main {
     width: 100%;
     display: flex;
@@ -155,7 +175,7 @@ body {
 }
 
  
-#aboutMovieDetails div img {
+#aboutMovieDetails div img,#MovieAdd div img {
     width: 250px;
     height: 350px;
     border: 2px solid black;
@@ -211,15 +231,153 @@ body {
 }
 
 #BackHome{
-    margin: 5px 0px 10px 50px;
+    margin: 20px 0px 20px 50px;
+    text-align:right;
 }
 
-#BackHome a{
+#BackHome a, #BackHomeEdit a, #DelMovie a:nth-child(2), #DelMovie input{
     color: white;
     text-decoration: none;
 }
 
-#BackHome a:hover {
-    color: #a9350f;
+#BackHome a:nth-child(1), #BackHomeEdit a, #DelMovie a:nth-child(2){
+    width: 130px;
+    padding: 8px;
+    background: #2ea745;
+    border-radius: 10px;
+    margin: 0px 10px 0px 0px;
+}
+
+#BackHome a:nth-child(1):hover, #BackHomeEdit a:hover, #DelMovie a:nth-child(2):hover{
+    background: #267235;
+    transition: 0.4s;
+}
+
+#BackHome a:nth-child(2), #DelMovie input{
+    width: 130px;
+    padding: 8px;
+    background: #b23623;
+    border-radius: 10px;
+    margin: 0px 50px 0px 0px;
+}
+
+#BackHome a:nth-child(2):hover, #DelMovie input:hover{
+    background: #6d291e;
+    transition: 0.4s;
+}
+
+/*/////////////// Добавить/Изменить Фильм ////////////////*/
+
+#TitleCreate{
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    margin: 2%;
+}
+
+#MovieAdd{
+    color: white;
+    width: 80%;
+    margin: auto;
+}
+
+#MovieAdd form{
+    display: flex;
+    justify-content: space-evenly;    
+    margin: auto;
+}
+
+
+
+#MovieAdd div form input{
+    width: 250px;
+}
+
+#MovieAdd div form div:nth-child(8){
+    margin: 10px 0px 0px 0px;
+}
+
+#AddMovieBtn {
+    margin: 30px 0px 0px 170px;
+    width: 100px;
+    background: #0d6efd;
+    border-radius: 5px;
+    padding: 1%;
+    border: 0px;
+    color: white;
+}
+
+#AddMovieBtn:hover, #AddPosterbtn {
+    background: #1a57b2;
+    transition: 0.4s;
+}
+
+#MovieAdd div img {
+    margin: 30px 0px 0px 30px;
+}
+
+#AddPosterbtn {
+    margin: 10px 0px 0px 40px;
+    width: 230px;
+    border: 0px;
+    color: white;
+    background: #0d6efd;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+
+#MovieAdd div:nth-child(2){
+    width: 250px;
+}
+
+#PosterInput{
+    height: 0px;
+    visibility: hidden;
+}
+
+#BackHomeEdit {
+    margin: 20px 0px 20px 50px;
+    text-align: left;
+}
+
+
+/*////////////////// Удалить фильм  /////////////////*/
+
+#h3Delete{
+    text-align:center;
+    color:white;
+    margin: 80px 0px 0px 0px;
+}
+
+#h5Delete {
+    text-align: center;
+    color: #d30707;
+    margin: 20px 0px 0px 0px;
+}
+
+#DelMovie{
+    margin: auto;
+    width: 200px;
+}
+
+#DelMovie form{
+    margin: 50px 0px 0px 0px;
+    display:flex;
+}
+
+ #DelMovie input{
+     border: 0px;
+ }
+
+
+/* ////////////////  EROR 404 /////////////////*/
+
+
+#bodyEror img{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    
 }
 

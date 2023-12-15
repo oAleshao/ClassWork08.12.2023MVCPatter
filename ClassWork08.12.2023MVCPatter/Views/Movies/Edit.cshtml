@@ -4,66 +4,91 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 id="TitleCreate">Изменить</h1>
 
-<h4>Movie</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div  id="MovieAdd">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <label asp-for="Title" class="control-label">Название</label>
+                <input asp-for="Title" class="form-control" value="@Model.Title"/>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Director" class="control-label"></label>
-                <input asp-for="Director" class="form-control" />
+                <label asp-for="Director" class="control-label">Режиссёр</label>
+                <input asp-for="Director" class="form-control" value="@Model.Director" />
                 <span asp-validation-for="Director" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
+                <label asp-for="Country" class="control-label">Страна</label>
+                <input asp-for="Country" class="form-control" value="@Model.Country" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ganre" class="control-label"></label>
-                <input asp-for="Ganre" class="form-control" />
+                <label asp-for="Ganre" class="control-label">Жанр</label>
+                <input asp-for="Ganre" class="form-control" value="@Model.Ganre" />
                 <span asp-validation-for="Ganre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
+                <label asp-for="Year" class="control-label">Год</label>
+                <input asp-for="Year" class="form-control" value="@Model.Year" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cast" class="control-label"></label>
-                <input asp-for="Cast" class="form-control" />
+                <label asp-for="Cast" class="control-label">В ролях</label>
+                <input asp-for="Cast" class="form-control" value="@Model.Cast" />
                 <span asp-validation-for="Cast" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Poster" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Описание</label>
+                <input asp-for="Description" class="form-control" value="@Model.Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div id="PosterInput">
+                <label asp-for="Poster" class="control-label">Постер</label>
                 <input asp-for="Poster" class="form-control" />
                 <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <div>
+            <img id="PosterCreateMovie" src="@Model.Poster" />
+                <input type="file" name="uploadedFile" id="AddPosterbtn" accept=".jpg, .jpeg, .png, .webp, .bmp, .svg"/>
+                <script>
+                AddPosterbtn.addEventListener("change", (event) => {
+                    var target = event.target;
+
+                    if (!FileReader) {
+                        PosterCreateMovie.src = "";
+                        PosterCreateMovie.alt = "Вы ничего не выбрали"
+                        return;
+                    }
+
+                    if (!target.files.length) {
+                        PosterCreateMovie.src = "";
+                        PosterCreateMovie.alt = "Вы ничего не выбрали"
+                        return;
+                    }
+
+                    var fileReader = new FileReader();
+
+                    fileReader.onload = () => {
+                        PosterCreateMovie.src = fileReader.result;
+                    }
+
+                    fileReader.readAsDataURL(target.files[0]);
+                });
+                </script>
+            <input type="submit" value="Изменить" id="AddMovieBtn" asp-route-id="@Model.Id" />
             </div>
         </form>
-    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div id="BackHomeEdit">
+    <a asp-action="Details" asp-route-id="@Model.Id">Назад</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
