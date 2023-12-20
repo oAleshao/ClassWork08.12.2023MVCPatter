@@ -297,6 +297,17 @@ body {
     margin: 10px 0px 0px 0px;
 }
 
+#PosterInputAndFile{
+    display: flex;
+    width: 260px;
+}
+
+#PosterInputAndFile input:nth-child(2) {
+    width:90px;
+     margin: 10px 0px 0px 0px;
+     border: 0px;
+}
+
 #AddMovieBtn {
     margin: 30px 0px 0px 170px;
     width: 100px;
@@ -318,7 +329,7 @@ body {
 
 #AddPosterbtn {
     margin: 10px 0px 0px 40px;
-    width: 230px;
+    width: 120px;
     border: 0px;
     color: white;
     background: #0d6efd;
@@ -341,12 +352,10 @@ body {
     text-align: left;
 }
 
-
 /*////////////////// Удалить фильм  /////////////////*/
-
-#h3Delete{
-    text-align:center;
-    color:white;
+#h3Delete {
+    text-align: center;
+    color: white;
     margin: 80px 0px 0px 0px;
 }
 

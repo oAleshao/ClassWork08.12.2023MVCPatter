@@ -20,6 +20,22 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
             _appEnvironment = appEnvironment;
         }
 
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult CheckPoster(string poster)
+        {
+            var fullPath = _appEnvironment.WebRootPath + "/Posters/" + poster.Split('\\').Last();
+            try
+            {
+                if (System.IO.File.Exists(fullPath))
+                {
+                    return Json(false);
+                }
+            }
+            catch (Exception) { }
+            return Json(true);
+        }
+
+
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -57,23 +73,22 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie, IFormFile uploadedFile)
         {
-            
+
             if (ModelState.IsValid)
             {
-                if (uploadedFile != null)
-                {
-                    string path = "/Posters/" + uploadedFile.FileName; // имя файла
+
+                string path = "/Posters/" + uploadedFile.FileName; // имя файла
 
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                     {
                         await uploadedFile.CopyToAsync(fileStream); // копируем файл в поток
-                        Console.WriteLine("WORK");
                     }
                     movie.Poster = path;
-                }
+
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(movie);
         }
@@ -99,7 +114,7 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Director,Country,Ganre,Year,Cast,Poster")] Movie movie, IFormFile? uploadedFile)
         {
             if (id != movie.Id)
             {
@@ -130,6 +145,17 @@ namespace ClassWork08._12._2023MVCPatter.Controllers
                         }
                         movie.Poster = path;
                     }
+                    else
+                    { 
+                        IQueryable<string> oldPath = from _movie in _context.Movies
+                                                     where _movie.Id == movie.Id
+                                                     select _movie.Poster;
+                        movie.Poster = oldPath.FirstOrDefault();
+                    }
+
+                    //Movie? tmp = await _context.Movies.FindAsync(movie.Id);
+
+                    //if (movie.CompareTo(tmp) == -1)
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
